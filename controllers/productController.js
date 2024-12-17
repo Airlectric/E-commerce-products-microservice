@@ -1,8 +1,10 @@
+// Product microservice productController.js
 const Product = require("../models/productModel");
 const Category = require("../schema/Category");
 const { sendMessage } = require("../config/rabbitmq");
 const mongoose = require("mongoose");
 const { GridFSBucket } = require("mongodb");
+const { syncProductToElastic, deleteProductFromElastic } = require('../services/elasticsearchSync');
 
 const conn = mongoose.connection;
 let gfsBucket;
@@ -55,6 +57,12 @@ exports.createProduct = async (req, res) => {
 
     const newProduct = new Product(product);
     const savedProduct = await newProduct.save();
+	
+	// Sync with ElasticSearch
+	await syncProductToElastic({
+	  ...savedProduct._doc,
+	  category: categoryName,
+	});
 
 
     sendMessage("product_events", {
@@ -143,6 +151,12 @@ exports.updateProduct = async (req, res) => {
     }
 
     const updatedProduct = await product.save();
+	
+	// Sync with ElasticSearch
+	await syncProductToElastic({
+	  ...updatedProduct._doc,
+	  category: categoryName,
+	});
 
 
     sendMessage("product_events", {
@@ -186,6 +200,9 @@ exports.deleteProduct = async (req, res) => {
 
     // Delete the product using `deleteOne`
     await Product.deleteOne({ _id: product._id });
+	
+	// Delete from ElasticSearch
+	await deleteProductFromElastic(product._id);	
 
     // Send RabbitMQ messages
     sendMessage("product_events", {

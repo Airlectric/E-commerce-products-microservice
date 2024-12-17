@@ -1,3 +1,4 @@
+// Product microservice consumeInventoryUpdate
 const Product = require('../models/productModel');
 const { connectRabbitMQ, sendMessage } = require('../config/rabbitmq');
 const { resolveCategoryName } = require('../utils/categoryUtils');
