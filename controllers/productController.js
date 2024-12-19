@@ -32,6 +32,7 @@ const resolveCategoryName = async (categoryId) => {
 // Create a product
 exports.createProduct = async (req, res) => {
   try {
+	  
     const { title, description, category_id, price, quantity, imageUrl, profileUrl } = req.body;
 
     const categoryName = await resolveCategoryName(category_id);
@@ -47,6 +48,7 @@ exports.createProduct = async (req, res) => {
       quantity,
       seller: { id: req.user.user_id, profileUrl },
     };
+	
 
     if (imageUrl) {
       product.image = imageUrl;

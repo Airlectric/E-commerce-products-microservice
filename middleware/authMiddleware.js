@@ -1,4 +1,4 @@
-//authMiddleware.js
+// product microservice authMiddleware.js
 const jwt = require('jsonwebtoken');
 
 const authenticateToken = (req, res, next) => {
@@ -7,6 +7,7 @@ const authenticateToken = (req, res, next) => {
 
   try {
     const decoded = jwt.verify(token, process.env.JWT_SECRET);
+	console.log(decoded)
     req.user = decoded; // Add user data to request object
     next();
   } catch (err) {
