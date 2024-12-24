@@ -1,3 +1,4 @@
+// ProductRoutes.js
 const express = require('express');
 const router = express.Router();
 const {
@@ -6,6 +7,7 @@ const {
   getProductById,
   updateProduct,
   deleteProduct,
+  getProductsBySellerId,
 } = require('../controllers/productController');
 const authenticateToken = require('../middleware/authMiddleware');
 const validateRole = require('../middleware/validateRole');
@@ -16,7 +18,7 @@ router.post(
   '/',
   authenticateToken,
   validateRole(['SHOP_OWNER']),
-  upload.fields([{ name: 'image' }, { name: 'profileImage' }]),
+  upload.fields([{ name: 'imageFile' }]),
   handleImageUpload,
   createProduct
 );
@@ -27,12 +29,15 @@ router.get('/', authenticateToken, validateRole(['USER', 'SHOP_OWNER']), getProd
 // Get a product by ID
 router.get('/:id', authenticateToken, validateRole(['USER', 'SHOP_OWNER']), getProductById);
 
+// Route to get products by seller ID
+router.get('/seller/:sellerId', authenticateToken, validateRole(['SHOP_OWNER']), getProductsBySellerId);
+
 // Update a product (restricted to the product owner)
 router.put(
   '/:id',
   authenticateToken,
   validateRole(['SHOP_OWNER']),
-  upload.fields([{ name: 'image' }, { name: 'profileImage' }]),
+  upload.fields([{ name: 'imageFile' }]),
   handleImageUpload,
   updateProduct
 );

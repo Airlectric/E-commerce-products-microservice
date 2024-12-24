@@ -13,6 +13,7 @@ const { initializeAndSyncCategories, searchCategories } = require('./elasticsear
 // Import Routes
 const productRoutes = require('./routes/productRoutes');
 const categoryRoutes = require('./routes/categoryRoutes');
+const imageRouter = require('./routes/imageRoutes');
 
 const app = express();
 
@@ -22,6 +23,8 @@ app.use(express.json());
 // Setup Routes
 app.use('/products', productRoutes);
 app.use('/category', categoryRoutes);
+app.use('/images', imageRouter);
+
 
 // Initialize services and middlewares
 const startServices = async () => {

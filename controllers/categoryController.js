@@ -1,3 +1,4 @@
+//categoryController.js
 const categoryModel = require("../models/categoryModel");
 
 exports.getAllCategories = async (req, res) => {
