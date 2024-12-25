@@ -1,3 +1,5 @@
+// Product microservice CategoryModel
+
 const mongoose = require("mongoose");
 
 const categorySchema = new mongoose.Schema({
