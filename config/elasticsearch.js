@@ -2,15 +2,12 @@ const { Client } = require('@elastic/elasticsearch');
 require('dotenv').config();
 
 const elasticClient = new Client({
-  node: process.env.ELASTICSEARCH_URL,
+  node: process.env.ELASTICSEARCH_URI,
   auth: {
-    username: process.env.ELASTICSEARCH_USERNAME || '', // Optional
-    password: process.env.ELASTICSEARCH_PASSWORD || '', // Optional
-  },
-  ssl: {
-    rejectUnauthorized: false, // Set to true in production
-  },
+    apiKey: process.env.ELASTICSEARCH_API_KEY 
+  }
 });
+
 
 // Test Elasticsearch connection
 (async () => {

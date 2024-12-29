@@ -1,11 +1,10 @@
 const { Client } = require('@elastic/elasticsearch');
 
 const elasticClient = new Client({
-  node: 'http://localhost:9200', // Replace with your ElasticSearch URL
+  node: process.env.ELASTICSEARCH_URI,
   auth: {
-    username: process.env.ELASTICSEARCH_USERNAME || '', // Optional
-    password: process.env.ELASTICSEARCH_PASSWORD || '', // Optional
-  },
+    apiKey: process.env.ELASTICSEARCH_API_KEY 
+  }
 });
 
 const INDEX_NAME = 'microservice_products'; // Define index name

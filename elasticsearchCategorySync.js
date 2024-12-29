@@ -5,7 +5,11 @@ const Category = require('./schema/Category');
 
 const esClient = new Client({
   node: process.env.ELASTICSEARCH_URI,
+  auth: {
+    apiKey: process.env.ELASTICSEARCH_API_KEY 
+  }
 });
+
 
 const INDEX_NAME = process.env.ELASTICSEARCH_CATEGORY_INDEX || 'microservice_categories';
 
